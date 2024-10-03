@@ -106,7 +106,7 @@ export const EditNote = async (req, res) => {
 
 export const GetAllNote = async (req, res) => {
   try {
-    const notes = await Note.find({ userId: req.user._id }).sort({
+    const notes = await Note.find({ userId: req?.user._id }).sort({
       isPinned: -1,
     });
 
@@ -118,7 +118,7 @@ export const GetAllNote = async (req, res) => {
       });
     }
 
-    return res.status(httpStatus.OK).json(notes);
+    return res.status(httpStatus.OK).json({notes});
   } catch (err) {
     console.log(`ERROR WHILE GETTING ALL NOTES: ${err}`);
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({

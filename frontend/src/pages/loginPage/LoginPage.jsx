@@ -21,7 +21,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Inputs before login:", inputs);
+    // console.log("Inputs before login:", inputs);
     await login(inputs);
   };
 
