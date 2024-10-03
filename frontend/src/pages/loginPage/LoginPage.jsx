@@ -2,15 +2,29 @@ import AuthHeader from "@/components/AuthHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React from "react";
+import useLogin from "@/hooks/UseLogin";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { login, loading } = useLogin();
+
+  const [inputs, setInputs] = useState({
+    username: "",
+    password: "",
+  });
 
   const toSignUp = () => {
     navigate("/signup");
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Inputs before login:", inputs);
+    await login(inputs);
+  };
+
   return (
     <div className="min-h-screen flex flex-col overflow-hidden">
       <AuthHeader />
@@ -22,19 +36,39 @@ const LoginPage = () => {
               Create an account
             </h2>
 
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div className="grid w-full max-w-sm items-center gap-1.5">
                   <Label htmlFor="">Username</Label>
-                  <Input type="text" placeholder="ajayteotia" />
+                  <Input
+                    type="text"
+                    placeholder="ajayteotia"
+                    value={inputs.username}
+                    onChange={(e) =>
+                      setInputs({ ...inputs, username: e.target.value })
+                    }
+                  />
                 </div>
 
                 <div className="grid w-full max-w-sm items-center gap-1.5">
                   <Label htmlFor="">Password</Label>
-                  <Input type="password" placeholder="Password" />
+                  <Input
+                    type="password"
+                    placeholder="Password"
+                    value={inputs.password}
+                    onChange={(e) =>
+                      setInputs({ ...inputs, password: e.target.value })
+                    }
+                  />
                 </div>
 
-                <Button className="w-full">Login</Button>
+                <Button disabled={loading} className="w-full">
+                  {loading ? (
+                    <span className="loader animate-spin w-4 h-4"></span>
+                  ) : (
+                    "Login"
+                  )}
+                </Button>
               </div>
             </form>
           </div>

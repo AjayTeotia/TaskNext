@@ -1,22 +1,33 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/landingPage/LandingPage";
 import LoginPage from "./pages/loginPage/LoginPage";
 import SignUpPage from "./pages/signUpPage/SignUpPage";
 import HomePage from "./pages/homePage/HomePage";
+import { useAuthContext } from "./context/authContext";
 
 function App() {
+  const { authUser } = useAuthContext();
   return (
-    <div>
+    <>
       <Routes>
         <Route path="/" element={<LandingPage />} />
 
-        <Route path="/home" element={<HomePage />} />
+        <Route
+          path="/home"
+          element={authUser ? <HomePage /> : <Navigate to="/login" />}
+        />
 
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/signup"
+          element={authUser ? <Navigate to="/home" /> : <SignUpPage />}
+        />
 
-        <Route path="/signup" element={<SignUpPage />} />
+        <Route
+          path="/login"
+          element={authUser ? <Navigate to="/home" /> : <LoginPage />}
+        />
       </Routes>
-    </div>
+    </>
   );
 }
 

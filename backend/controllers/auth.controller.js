@@ -15,7 +15,7 @@ export const SignUp = async (req, res) => {
     if (!req.body) {
       return res.status(httpStatus.BAD_REQUEST).json({
         success: false,
-        error: "REQUEST BODY IS EMPTY",
+        message: "REQUEST BODY IS EMPTY",
       });
     }
 
@@ -25,7 +25,7 @@ export const SignUp = async (req, res) => {
     if (!fullName || !username || !password) {
       return res.status(httpStatus.BAD_REQUEST).json({
         success: false,
-        error: "ALL FIELDS ARE REQUIRED",
+        message: "ALL FIELDS ARE REQUIRED",
       });
     }
 
@@ -33,7 +33,7 @@ export const SignUp = async (req, res) => {
     if (password.length < 6) {
       return res.status(httpStatus.BAD_REQUEST).json({
         success: false,
-        error: "PASSWORD MUST BE AT LEAST 6 CHARACTERS",
+        message: "PASSWORD MUST BE AT LEAST 6 CHARACTERS",
       });
     }
 
@@ -42,7 +42,7 @@ export const SignUp = async (req, res) => {
     if (existingUser) {
       return res.status(httpStatus.CONFLICT).json({
         success: false,
-        error: "USER ALREADY EXISTS",
+        message: "USER ALREADY EXISTS",
       });
     }
 
@@ -73,7 +73,7 @@ export const SignUp = async (req, res) => {
     console.log(`ERROR WHILE CREATING USER: ${err.message}`);
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
       success: false,
-      error: "INTERNAL SERVER ERROR",
+      message: "INTERNAL SERVER ERROR",
     });
   }
 };
@@ -85,7 +85,7 @@ export const Login = async (req, res) => {
     if (!req.body) {
       return res.status(httpStatus.BAD_REQUEST).json({
         success: false,
-        error: "REQUEST BODY IS EMPTY",
+        message: "REQUEST BODY IS EMPTY",
       });
     }
 
@@ -95,7 +95,7 @@ export const Login = async (req, res) => {
     if (!username || !password) {
       return res.status(httpStatus.BAD_REQUEST).json({
         success: false,
-        error: "ALL FIELDS ARE REQUIRED",
+        message: "ALL FIELDS ARE REQUIRED",
       });
     }
 
@@ -105,7 +105,7 @@ export const Login = async (req, res) => {
     if (!user) {
       return res.status(httpStatus.NOT_FOUND).json({
         success: false,
-        error: "USER NOT FOUND",
+        message: "USER NOT FOUND",
       });
     }
 
@@ -114,7 +114,7 @@ export const Login = async (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(httpStatus.UNAUTHORIZED).json({
         success: false,
-        error: "INCORRECT PASSWORD",
+        message: "INCORRECT PASSWORD",
       });
     }
 
@@ -134,7 +134,7 @@ export const Login = async (req, res) => {
     console.log(`ERROR WHILE LOGGING IN USER: ${err.message}`);
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
       success: false,
-      error: "INTERNAL SERVER ERROR",
+      message: "INTERNAL SERVER ERROR",
     });
   }
 };
@@ -151,7 +151,7 @@ export const Logout = async (req, res) => {
     console.log(`ERROR WHILE LOGGING OUT: ${err.message}`);
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
       success: false,
-      error: "INTERNAL SERVER ERROR",
+      message: "INTERNAL SERVER ERROR",
     });
   }
 };
