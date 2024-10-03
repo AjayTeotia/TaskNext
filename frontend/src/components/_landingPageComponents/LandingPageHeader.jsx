@@ -20,7 +20,7 @@ const LandingPageHeader = () => {
     navigate("/signup");
   };
   return (
-    <div className="flex justify-between items-center p-5 border-b-2">
+    <div className="flex justify-between items-center p-5 border-b-2 shadow-lg ">
       <Logo />
 
       <div className="md:flex gap-4 items-center hidden ">
@@ -40,7 +40,7 @@ const LandingPageHeader = () => {
           </SheetTrigger>
           <SheetContent className="w-[250px] sm:w-[400px]" side={"left"}>
             <SheetHeader>
-              <SheetTitle className="mb-5 mt-5">
+              <SheetTitle className="mb-5 mt-5  border-b-2 w-full">
                 <Logo />
               </SheetTitle>
               <SheetDescription>

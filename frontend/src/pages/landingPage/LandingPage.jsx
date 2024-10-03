@@ -4,7 +4,7 @@ import React from "react";
 
 const LandingPage = () => {
   return (
-    <div>
+    <div className="overflow-hidden">
       <LandingPageHeader />
 
       <LandingPageHero />
