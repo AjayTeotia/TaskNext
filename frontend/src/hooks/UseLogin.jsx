@@ -49,10 +49,10 @@ function useLogin() {
       if (res.ok) {
         toast.success("LOGGED IN SUCCESSFULLY");
 
-        localStorage.setItem("taskNext-user", JSON.stringify(data));
+        localStorage.setItem("taskNext-user", JSON.stringify(data.user));
+        localStorage.setItem("taskNext-token", JSON.stringify(data.token));
+        setAuthUser(data);
       }
-
-      setAuthUser(data);
     } catch (error) {
       // console.log(error);
       toast.error(error.message);

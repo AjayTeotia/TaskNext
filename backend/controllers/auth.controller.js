@@ -62,13 +62,7 @@ export const SignUp = async (req, res) => {
 
     await newUser.save();
 
-    return res.status(httpStatus.CREATED).json({
-      success: true,
-      message: "USER CREATED SUCCESSFULLY",
-      data: {
-        newUser: { ...newUser.toObject(), password: undefined },
-      },
-    });
+    return res.status(httpStatus.CREATED).json(newUser);
   } catch (err) {
     console.log(`ERROR WHILE CREATING USER: ${err.message}`);
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
@@ -119,16 +113,17 @@ export const Login = async (req, res) => {
     }
 
     // JWT AND COOKIE CREATION
-    generateTokenAndSetCookie(user?._id, res);
+    const token = generateTokenAndSetCookie(user?._id, res);
+
+
 
     await user.save();
 
     return res.status(httpStatus.OK).json({
       success: true,
       message: "LOGGED IN SUCCESSFULLY",
-      data: {
-        user: { ...user.toObject(), password: undefined },
-      },
+      user,
+      token,
     });
   } catch (err) {
     console.log(`ERROR WHILE LOGGING IN USER: ${err.message}`);

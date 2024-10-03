@@ -14,7 +14,7 @@ export const CreateNote = async (req, res) => {
       });
     }
 
-    const { title, content, tags } = req.body;
+    const { title, content } = req.body;
 
     if (!title || !content) {
       return res.status(httpStatus.BAD_REQUEST).json({
@@ -35,14 +35,9 @@ export const CreateNote = async (req, res) => {
       title,
       content,
       userId: req.user._id,
-      tags: tags || [],
     });
 
-    return res.status(httpStatus.CREATED).json({
-      success: true,
-      message: "NOTE CREATED SUCCESSFULLY",
-      data: newNote,
-    });
+    return res.status(httpStatus.CREATED).json(newNote);
   } catch (err) {
     console.error(`ERROR WHILE CREATING NOTE: ${err}`);
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
@@ -63,7 +58,7 @@ export const EditNote = async (req, res) => {
       });
     }
 
-    const { title, content, tags, isPinned } = req.body;
+    const { title, content, isPinned } = req.body;
     const { noteId } = req.params;
 
     // CHECK IF NOTE EXISTS
@@ -92,10 +87,6 @@ export const EditNote = async (req, res) => {
       note.content = content;
     }
 
-    if (tags) {
-      note.tags = tags;
-    }
-
     if (isPinned !== undefined) {
       // Allow for toggling isPinned
       note.isPinned = isPinned;
@@ -103,11 +94,7 @@ export const EditNote = async (req, res) => {
 
     await note.save();
 
-    return res.status(httpStatus.OK).json({
-      success: true,
-      message: "NOTE EDITED SUCCESSFULLY",
-      data: note,
-    });
+    return res.status(httpStatus.OK).json(note);
   } catch (err) {
     console.error(`ERROR WHILE EDITING NOTE: ${err}`);
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
@@ -131,11 +118,7 @@ export const GetAllNote = async (req, res) => {
       });
     }
 
-    return res.status(httpStatus.OK).json({
-      success: true,
-      message: "ALL NOTES FETCHED SUCCESSFULLY",
-      data: notes,
-    });
+    return res.status(httpStatus.OK).json(notes);
   } catch (err) {
     console.log(`ERROR WHILE GETTING ALL NOTES: ${err}`);
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
@@ -169,10 +152,7 @@ export const DeleteNote = async (req, res) => {
 
     await Note.findByIdAndDelete(noteId);
 
-    return res.status(httpStatus.OK).json({
-      success: true,
-      message: "NOTE DELETED SUCCESSFULLY",
-    });
+    return res.status(httpStatus.OK).json(note);
   } catch (err) {
     console.log(`ERROR WHILE DELETING NOTE: ${err}`);
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
@@ -198,8 +178,7 @@ export const IsPinnedNote = async (req, res) => {
       });
     }
 
-    // Check if the user is authorized to delete this note
-    if ((note.userId.toString() != req.user._id.toString())) {
+    if (note.userId.toString() != req.user._id.toString()) {
       return res.status(httpStatus.FORBIDDEN).json({
         success: false,
         error: "FORBIDDEN - USER NOT AUTHORIZED TO DELETE THIS NOTE",
@@ -216,11 +195,7 @@ export const IsPinnedNote = async (req, res) => {
 
     await note.save();
 
-    return res.status(httpStatus.OK).json({
-      success: true,
-      message: "NOTE PINNED SUCCESSFULLY",
-      data: note,
-    });
+    return res.status(httpStatus.OK).json(note);
   } catch (err) {
     console.log(`ERROR WHILE IS PINNED NOTE: ${err}`);
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({

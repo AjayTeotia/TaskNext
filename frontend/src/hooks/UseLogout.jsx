@@ -17,17 +17,17 @@ function useLogout() {
       const data = await res.json();
       if (res.ok) {
         setAuthUser(null);
-        toast.success("Logged out successfully"); // Simplified message
+        toast.success("Logged out successfully"); 
 
-        // Clear user data from localStorage
         localStorage.removeItem("taskNext-user");
+        localStorage.removeItem("taskNext-token");
       } else if (data.error) {
         toast.error(data.error);
       }
     } catch (error) {
       toast.error(error.message);
     } finally {
-      setLoading(false); // Ensure loading state is reset
+      setLoading(false); 
     }
   };
 

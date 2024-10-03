@@ -53,6 +53,7 @@ function useSignUp() {
       toast.success("SIGNUP SUCCESSFULLY");
 
       localStorage.setItem("taskNext-user", JSON.stringify(data));
+      localStorage.setItem("taskNext-token", JSON.stringify(data.token));
 
       setAuthUser(data);
 
