@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import useGetAllNotes from "@/hooks/useGetAllNotes";
-import { DeleteIcon, PencilIcon, PinIcon, RefreshCwIcon } from "lucide-react";
+import { DeleteIcon, PinIcon, RefreshCwIcon } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
 import useDeleteNote from "@/hooks/useDeleteNote";
 import usePinnedNote from "@/hooks/usePinnedNote";
+import EditNote from "./EditNote";
 
 const NoteCard = () => {
   const { getAllNotes, loading, notes, triggerRefresh } = useGetAllNotes();
@@ -18,7 +19,7 @@ const NoteCard = () => {
     try {
       const success = await deleteNote(noteId);
       if (success) {
-        triggerRefresh(); // Refresh notes after successful deletion
+        triggerRefresh();
       }
     } catch (error) {
       console.log(error);
@@ -27,12 +28,12 @@ const NoteCard = () => {
 
   const handlePin = async (noteId) => {
     try {
-      const isPinned = !pinnedNotes[noteId]; // Get the new pinned state
-      const success = await pinNote(noteId, isPinned); // Pass it to pinNote
+      const isPinned = !pinnedNotes[noteId];
+      const success = await pinNote(noteId, isPinned);
       if (success) {
         setPinnedNotes((prev) => ({
           ...prev,
-          [noteId]: isPinned, // Update state based on new pinned state
+          [noteId]: isPinned,
         }));
         triggerRefresh();
       }
@@ -95,10 +96,7 @@ const NoteCard = () => {
                   Created At: {new Date(note.createdAt).toLocaleString()}
                 </h2>
                 <div className="flex items-center float-right -mt-5 gap-1">
-                  <PencilIcon
-                    onClick={() => handlePin(note._id)}
-                    className="hover:text-green-500 hover:cursor-pointer hover:scale-110"
-                  />
+                  <EditNote note={note} triggerRefresh={triggerRefresh} />
                   <DeleteIcon
                     onClick={() => handleDelete(note._id)}
                     className="hover:text-red-500 hover:cursor-pointer hover:scale-110"
