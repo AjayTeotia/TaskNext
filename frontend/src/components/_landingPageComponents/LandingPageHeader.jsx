@@ -12,21 +12,34 @@ import {
 } from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "@/context/authContext";
 
 const LandingPageHeader = () => {
   const navigate = useNavigate();
+  const { authUser } = useAuthContext();
 
   const toSignUp = () => {
     navigate("/signup");
   };
+
+  const toHome = () => {
+    navigate("/home");
+  };
+
   return (
     <div className="flex justify-between items-center p-5 border-b-2 shadow-lg ">
       <Logo />
 
-      <div className="md:flex gap-4 items-center hidden ">
-        <Button onClick={toSignUp} variant="secondary">
-          Get Started
-        </Button>
+      <div className="md:flex gap-4 items-center hidden">
+        {authUser ? (
+          <Button onClick={toHome} variant="secondary">
+            Dashboard
+          </Button>
+        ) : (
+          <Button onClick={toSignUp} variant="secondary">
+            Get Started
+          </Button>
+        )}
 
         <ModeToggle />
       </div>
@@ -45,9 +58,15 @@ const LandingPageHeader = () => {
               </SheetTitle>
               <SheetDescription>
                 <div className="gap-4 items-center flex flex-col">
-                  <Button onClick={toSignUp} variant="secondary">
-                    Get Started
-                  </Button>
+                  {authUser ? (
+                    <Button onClick={toHome} variant="secondary">
+                      Dashboard
+                    </Button>
+                  ) : (
+                    <Button onClick={toSignUp} variant="secondary">
+                      Get Started
+                    </Button>
+                  )}
 
                   <ModeToggle />
                 </div>

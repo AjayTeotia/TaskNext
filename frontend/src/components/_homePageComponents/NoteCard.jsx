@@ -1,19 +1,40 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useGetAllNotes from "@/hooks/useGetAllNotes";
-import { DeleteIcon, PencilIcon, PinIcon } from "lucide-react";
+import { DeleteIcon, PencilIcon, PinIcon, RefreshCwIcon } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
 import useDeleteNote from "@/hooks/useDeleteNote";
+import usePinnedNote from "@/hooks/usePinnedNote";
 
 const NoteCard = () => {
   const { getAllNotes, loading, notes, triggerRefresh } = useGetAllNotes();
   const { deleteNote } = useDeleteNote();
+  const { pinNote } = usePinnedNote();
+
+  // State to manage pinned notes
+  const [pinnedNotes, setPinnedNotes] = useState({});
 
   const handleDelete = async (noteId) => {
     try {
       const success = await deleteNote(noteId);
       if (success) {
         triggerRefresh(); // Refresh notes after successful deletion
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlePin = async (noteId) => {
+    try {
+      const isPinned = !pinnedNotes[noteId]; // Get the new pinned state
+      const success = await pinNote(noteId, isPinned); // Pass it to pinNote
+      if (success) {
+        setPinnedNotes((prev) => ({
+          ...prev,
+          [noteId]: isPinned, // Update state based on new pinned state
+        }));
+        triggerRefresh();
       }
     } catch (error) {
       console.log(error);
@@ -28,7 +49,13 @@ const NoteCard = () => {
     <div>
       <div className="flex justify-between items-center">
         <h2 className="font-bold text-xl md:text-2xl my-5">Your Notes</h2>
-        <Button onClick={triggerRefresh}>Refresh</Button>
+        <Button
+          className="flex items-center gap-2 text-base"
+          onClick={triggerRefresh}
+        >
+          <RefreshCwIcon />
+          <p>Refresh</p>
+        </Button>
       </div>
 
       {loading ? (
@@ -52,7 +79,12 @@ const NoteCard = () => {
                 key={note._id}
                 className="border-2 shadow-lg rounded-xl w-full p-3 mb-4"
               >
-                <PinIcon className="float-right hover:text-blue-500 hover:cursor-pointer hover:scale-110" />
+                <PinIcon
+                  onClick={() => handlePin(note._id)}
+                  className={`float-right hover:cursor-pointer hover:scale-110 ${
+                    pinnedNotes[note._id] ? "text-blue-500" : ""
+                  }`}
+                />
                 <h2 className="text-lg font-bold my-2 text-[#005C97]">
                   {note.title}
                 </h2>
@@ -63,7 +95,10 @@ const NoteCard = () => {
                   Created At: {new Date(note.createdAt).toLocaleString()}
                 </h2>
                 <div className="flex items-center float-right -mt-5 gap-1">
-                  <PencilIcon className="hover:text-green-500 hover:cursor-pointer hover:scale-110" />
+                  <PencilIcon
+                    onClick={() => handlePin(note._id)}
+                    className="hover:text-green-500 hover:cursor-pointer hover:scale-110"
+                  />
                   <DeleteIcon
                     onClick={() => handleDelete(note._id)}
                     className="hover:text-red-500 hover:cursor-pointer hover:scale-110"

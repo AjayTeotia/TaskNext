@@ -1,13 +1,20 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "@/context/authContext";
 
 const LandingPageHero = () => {
   const navigate = useNavigate();
+  const { authUser } = useAuthContext();
 
   const toSignUp = () => {
     navigate("/signup");
   };
+
+  const toHome = () => {
+    navigate("/home");
+  };
+
   return (
     <div className="  w-full flex flex-col items-center justify-center h-screen">
       <div className="text-center">
@@ -24,9 +31,15 @@ const LandingPageHero = () => {
           Backlog is the issue management tool for creators
         </p>
 
-        <Button onClick={toSignUp} variant="secondary" className="mt-5 p-5">
-          Get Started, it's free
-        </Button>
+        {authUser ? (
+          <Button onClick={toHome} variant="secondary" className="mt-5 p-5">
+            Dashboard
+          </Button>
+        ) : (
+          <Button onClick={toSignUp} variant="secondary" className="mt-5 p-5">
+            Get Started, it's free
+          </Button>
+        )}
 
         {/*TODO*/}
         {/*Image of home here*/}

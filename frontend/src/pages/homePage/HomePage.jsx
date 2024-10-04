@@ -1,7 +1,6 @@
 import AddNewNote from "@/components/_homePageComponents/AddNewNote";
 import HomePageHeader from "@/components/_homePageComponents/HomePageHeader";
 import NoteCard from "@/components/_homePageComponents/NoteCard";
-import useGetAllNotes from "@/hooks/UseGetAllNotes";
 import React from "react";
 
 const HomePage = () => {

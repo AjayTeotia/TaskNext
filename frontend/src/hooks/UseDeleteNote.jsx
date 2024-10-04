@@ -7,7 +7,7 @@ function useDeleteNote() {
   const deleteNote = async (noteId) => {
     setLoading(true);
 
-    console.log(noteId);
+    //  console.log(noteId);
 
     try {
       const res = await fetch(`api/note/delete-note/${noteId}`, {
