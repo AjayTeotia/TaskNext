@@ -1,4 +1,4 @@
-@@ -0,0 +1,81 @@
+
 # To-Do List Application
 
 A powerful and user-friendly To-Do List application built with the **MERN stack** (MongoDB, Express.js, React, Node.js), styled using **Tailwind CSS** and **Shadcn**. This application enables users to manage tasks efficiently with features like user authentication, task management, and pinned notes.
