@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import useGetAllNotes from "@/hooks/useGetAllNotes";
 import { DeleteIcon, PinIcon, RefreshCwIcon } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
-import useDeleteNote from "@/hooks/useDeleteNote";
+import useDeleteNote from "@/hooks/UseDeleteNote";
 import usePinnedNote from "@/hooks/usePinnedNote";
+import useGetAllNotes from "@/hooks/UseGetAllNotes";
 import EditNote from "./EditNote";
 
 const NoteCard = () => {

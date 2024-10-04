@@ -11,7 +11,7 @@ import {
   import { Input } from "../ui/input";
   import { Button } from "../ui/button";
   import { Textarea } from "../ui/textarea";
-  import useEditNote from "@/hooks/useEditNote";
+import useEditNote from "@/hooks/UseEditNote";
   
   const EditNote = ({ note, triggerRefresh }) => { // Accept triggerRefresh as a prop
     const [openDialog, setOpenDialog] = useState(false);

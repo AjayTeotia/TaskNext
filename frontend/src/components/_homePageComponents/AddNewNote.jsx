@@ -9,8 +9,8 @@ import { useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import useAddNewNote from "@/hooks/UseAddNewNote";
 import { Textarea } from "../ui/textarea";
+import useAddNewNote from "@/hooks/UseAddNewNote";
 
 const AddNewNote = () => {
   const [openDialog, setOpenDialog] = useState(false);
