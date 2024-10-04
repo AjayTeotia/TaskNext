@@ -3,9 +3,22 @@ import useGetAllNotes from "@/hooks/useGetAllNotes";
 import { DeleteIcon, PencilIcon, PinIcon } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
+import useDeleteNote from "@/hooks/useDeleteNote";
 
 const NoteCard = () => {
   const { getAllNotes, loading, notes, triggerRefresh } = useGetAllNotes();
+  const { deleteNote } = useDeleteNote();
+
+  const handleDelete = async (noteId) => {
+    try {
+      const success = await deleteNote(noteId);
+      if (success) {
+        triggerRefresh(); // Refresh notes after successful deletion
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getAllNotes();
@@ -36,7 +49,7 @@ const NoteCard = () => {
           ) : (
             notes.map((note) => (
               <div
-                key={note.id}
+                key={note._id}
                 className="border-2 shadow-lg rounded-xl w-full p-3 mb-4"
               >
                 <PinIcon className="float-right hover:text-blue-500 hover:cursor-pointer hover:scale-110" />
@@ -51,7 +64,10 @@ const NoteCard = () => {
                 </h2>
                 <div className="flex items-center float-right -mt-5 gap-1">
                   <PencilIcon className="hover:text-green-500 hover:cursor-pointer hover:scale-110" />
-                  <DeleteIcon className="hover:text-red-500 hover:cursor-pointer hover:scale-110" />
+                  <DeleteIcon
+                    onClick={() => handleDelete(note._id)}
+                    className="hover:text-red-500 hover:cursor-pointer hover:scale-110"
+                  />
                 </div>
               </div>
             ))
