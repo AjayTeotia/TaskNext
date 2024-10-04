@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "@/context/authContext";
+import dashboardImg from "../../assets/dashboard.png";
 
 const LandingPageHero = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const LandingPageHero = () => {
   };
 
   return (
-    <div className="  w-full flex flex-col items-center justify-center h-screen">
+    <div className="  w-full flex flex-col items-center justify-center h-screen mt-20">
       <div className="text-center">
         <h2 className="text-4xl sm:text-5xl font-bold">
           Welcome to{" "}
@@ -41,8 +42,13 @@ const LandingPageHero = () => {
           </Button>
         )}
 
-        {/*TODO*/}
-        {/*Image of home here*/}
+        <img
+          className="mt-9 rounded-xl border-8 mb-16"
+          src={dashboardImg}
+          alt="Dashboard"
+          width={1000}
+          height={700}
+        />
       </div>
     </div>
   );
