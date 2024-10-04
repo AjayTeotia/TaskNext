@@ -25,9 +25,16 @@ const AddNewNote = () => {
     //console.log("Inputs before adding new note:", inputs);
 
     await addNewNote(inputs);
+
+    setInputs({
+      title: "",
+      content: "",
+    });
+    setOpenDialog(false);
   };
   return (
     <div>
+      <h2 className="text-xl md:text-2xl font-bold my-3">Add New Note</h2>
       <div
         className="p-10 border-dashed border-2 rounded-lg hover:cursor-pointer hover:scale-105 hover:shadow-md transition-all"
         onClick={() => setOpenDialog(true)}

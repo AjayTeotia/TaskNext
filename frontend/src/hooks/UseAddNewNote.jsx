@@ -58,7 +58,7 @@ function useAddNewNote() {
 
       return false;
     } catch (error) {
-      console.log("ERROR WHILE ADDING NEW NOTE: ", error.message);
+      //console.log("ERROR WHILE ADDING NEW NOTE: ", error.message);
       toast.error(error.message);
     } finally {
       setLoading(false);

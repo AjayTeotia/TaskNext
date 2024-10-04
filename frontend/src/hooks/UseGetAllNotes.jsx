@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { toast } from "sonner";
 
 function useGetAllNotes() {
   const [loading, setLoading] = useState(false);
   const [notes, setNotes] = useState([]);
 
-  const getAllNotes = async () => {
-    setLoading(true);
+  const [refreshData, setRefreshData] = useState(false);
 
+  const triggerRefresh = () => {
+    setRefreshData((prev) => !prev);
+  };
+
+  const getAllNotes = useCallback(async () => {
+    setLoading(true);
     try {
       const token = localStorage.getItem("taskNext-token");
       if (!token) {
@@ -33,16 +38,20 @@ function useGetAllNotes() {
       }
 
       toast.success("All notes fetched successfully");
-      setNotes(data.notes); 
+      setNotes(data.notes);
     } catch (error) {
       console.log("Error while getting all notes: ", error);
       toast.error(error.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  return { getAllNotes, loading, notes }; 
+  useEffect(() => {
+    getAllNotes();
+  }, [refreshData, getAllNotes]); 
+
+  return { getAllNotes, loading, notes, triggerRefresh };
 }
 
 export default useGetAllNotes;
